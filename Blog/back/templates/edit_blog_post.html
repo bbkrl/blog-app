@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %} Edit Blog Post {% endblock %}
+<p class="tags">Tags: {{ post.tags.all|join:", " }}</p>
 
 {% block css %}
 {% endblock %}

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'back',
     'django.contrib.humanize',
+    'taggit',
 ]
 
 MIDDLEWARE = [
