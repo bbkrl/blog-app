@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.timezone import now
+from taggit.managers import TaggableManager
 
 
 class Profile(models.Model):
@@ -24,6 +25,8 @@ class BlogPost(models.Model):
     content = models.TextField()
     image = models.ImageField(upload_to="profile_pics", blank=True, null=True)
     dateTime = models.DateTimeField(auto_now_add=True)
+
+    tags = TaggableManager()
 
     def __str__(self):
         return str(self.author) + " Blog Title: " + self.title
