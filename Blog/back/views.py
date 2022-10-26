@@ -2,14 +2,11 @@ from django.contrib.auth import logout, get_user_model
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-
-from .models import *
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileForm, BlogPostForm
 from django.views.generic import UpdateView
 from django.contrib import messages
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
@@ -17,8 +14,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
+from .models import *
 from .token import account_activation_token
-from .forms import SignupForm
+from .forms import SignupForm, ProfileForm, BlogPostForm
 
 
 def register(request):
@@ -177,4 +175,14 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
                       " If you don't receive an email, " \
                       "please make sure you've entered the address you registered with, and check your spam folder."
     success_url = reverse_lazy('users-home')
+
+
+def show_subscriptions(request, subscriber_user_id):
+    user = get_object_or_404(User, id=subscriber_user_id)
+    subscription = user.subscriptions.all()
+    context = {
+        'user': user,
+        'subscription': subscription,
+    }
+    return render(request, "show_subscriptions.html", context)
 
