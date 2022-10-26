@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.timezone import now
 from taggit.managers import TaggableManager
+from django.shortcuts import render, redirect, get_object_or_404
 
 
 class Profile(models.Model):
@@ -44,3 +45,21 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user.username + " Comment: " + self.content
+
+
+class Subscription(models.Model):
+    subscriber_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriptions')
+    subscription_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscribers')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.subscriber_user_id} is subscribe on {self.subscription_user_id}'
+
+    def show_subscriptions(self, subscriber_user_id):
+        user = get_object_or_404(User, id=subscriber_user_id)
+        subscription = user.subscriptions.all()
+        # context = {
+        #     'user': user,
+        #     'subscription': subscription,
+        # }
+        return subscription

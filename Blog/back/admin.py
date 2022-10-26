@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, BlogPost, Comment, User
+from .models import Profile, BlogPost, Comment, User, Subscription
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -12,6 +12,11 @@ class PostAdmin(admin.ModelAdmin):
     # ordering = ['status', 'publish']
 
 
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('subscriber_user_id', 'subscription_user_id', 'created_at')
+
+
 admin.site.register(BlogPost, PostAdmin)
 admin.site.register(Profile)
 admin.site.register(Comment)
+admin.site.register(Subscription, SubscriptionAdmin)

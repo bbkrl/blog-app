@@ -49,4 +49,7 @@ urlpatterns = [
         template_name='reset/password_reset_complete.html'),
          name='password_reset_complete'),
 
+
+    path('show/<int:subscriber_user_id>/', views.show_subscriptions, name='show')
+
 ]
